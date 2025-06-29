@@ -1,133 +1,117 @@
-Clustering Unlabeled Sound Data
-This repository contains a Jupyter Notebook (Clustering_Sound_Images_Steven_SHYAKA.ipynb) that demonstrates the process of clustering unlabeled sound data. The project involves loading audio files, extracting relevant features (MFCCs), performing dimensionality reduction using PCA and t-SNE, and applying clustering algorithms (K-Means and DBSCAN) to identify patterns in the sound data.
+# README: Clustering Sound Images - Steven SHYAKA
 
-Table of Contents
-Project Overview
+## 📘 **Clustering Sound Images Using PCA and t-SNE**
 
-Features
+## 🎯 Objective
 
-Setup
+This project aims to process and cluster sound data represented as images (likely spectrograms) using machine learning techniques, particularly **Principal Component Analysis (PCA)** and **t-distributed Stochastic Neighbor Embedding (t-SNE)**. These dimensionality reduction techniques help visualize and explore potential patterns in the feature space of sound image data.
 
-Usage
+---
 
-Data
+## 📁 Dataset
 
-Results and Observations
+The dataset consists of sound images (e.g., `.jpg`, `.png`) stored in a directory named `sound_images`. These images are expected to be visual representations of audio (e.g., spectrograms or mel-spectrograms).
 
-Dependencies
+---
 
-Author
+## 📌 Key Dependencies
 
-Project Overview
-The main goal of this project is to explore and cluster unlabeled sound data. This involves:
+The following Python libraries are used:
 
-Data Loading and Feature Extraction: Loading .wav audio files and extracting Mel-frequency cepstral coefficients (MFCCs) as features.
+* `os`, `glob`, `random`: for file handling and shuffling
+* `matplotlib`, `seaborn`, `PIL`: for image processing and visualization
+* `numpy`, `pandas`: for data manipulation
+* `sklearn.decomposition.PCA`, `sklearn.manifold.TSNE`: for dimensionality reduction
+* `tqdm`: for progress bars
 
-Exploratory Data Analysis (EDA): Visualizing raw features to understand their distribution.
+---
 
-Dimensionality Reduction: Applying Principal Component Analysis (PCA) and t-Distributed Stochastic Neighbor Embedding (t-SNE) to reduce the dimensionality of the MFCC features for better visualization and clustering performance.
+## 📜 Workflow
 
-Clustering: Implementing K-Means and DBSCAN algorithms to group similar sound samples.
+### 1. **Setup & Imports**
 
-Evaluation: Assessing the quality of the clusters using metrics like Silhouette Score and Davies-Bouldin Index.
+All necessary libraries are imported and configured. This includes tools for loading images, visualizing them, and applying machine learning methods.
 
-Visualization: Plotting the clusters in reduced-dimensional space to observe their separation.
+---
 
-Features
-Audio Feature Extraction: Uses librosa to extract MFCCs.
+### 2. **Image Loading and Preprocessing**
 
-Dimensionality Reduction: Implements PCA and t-SNE for effective data visualization.
+* Images are loaded from the folder using `glob`.
+* Only image files with the correct extensions are considered.
+* Each image is:
 
-Clustering Algorithms: Utilizes K-Means and DBSCAN for grouping similar sound data.
+  * Converted to grayscale.
+  * Resized to a standard shape (64x64).
+  * Flattened into a 1D feature vector.
 
-Cluster Evaluation: Provides quantitative metrics to evaluate clustering performance.
+> 📌 Output: A `features_array` matrix of shape (n\_samples, n\_features), where each row represents a processed image.
 
-Interactive Visualizations: Generates scatter plots and pair plots to visualize data and clusters.
+---
 
-Setup
-To run this notebook, you will need to have Python installed along with the necessary libraries.
+### 3. **Data Shuffling**
 
-Clone the repository (if applicable):
+The image features and filenames are shuffled using the same seed to ensure reproducibility.
 
-# If this project is part of a larger repository, provide clone instructions.
-# git clone <repository_url>
-# cd <repository_name>
+---
 
-Install dependencies:
-It is recommended to use a virtual environment.
+### 4. **PCA for Dimensionality Reduction**
 
-pip install -r requirements.txt
+* PCA reduces the high-dimensional image vectors to 50 principal components.
+* This helps in retaining most variance while reducing dimensionality.
+* Scree plot is generated to visualize the explained variance ratio.
 
-(If you don't have a requirements.txt file, you can create one with the following content based on the notebook's imports):
+---
 
-librosa
-matplotlib
-seaborn
-pandas
-numpy
-scikit-learn
+### 5. **t-SNE for Visualization**
 
-Download the data:
-The notebook expects a unlabelled_sounds.zip file. Please ensure this file is placed in the specified path or update the unlabelled_data_path variable in the notebook.
+* t-SNE further reduces the PCA-transformed data to 2 dimensions.
+* This makes it possible to plot and visually inspect clusters in 2D.
+* A scatter plot is generated with thumbnails of corresponding sound images at their 2D positions.
 
-unlabelled_data_path = "/content/drive/MyDrive/unlabelled_sounds.zip"
+---
 
-If running in Google Colab, ensure you mount your Google Drive as shown in the notebook:
+### 6. **Cluster Visualization**
 
-from google.colab import drive
-drive.mount('/content/drive')
+* A `visualize_tsne_with_images` function is defined and used to overlay the actual images at the points obtained from t-SNE for visual pattern inspection.
+* The final output visually groups similar sounds based on their image representation.
 
-Usage
-Open the Jupyter Notebook:
+---
 
-jupyter notebook Clustering_Sound_Images_Steven_SHYAKA.ipynb
+## 🧠 Concepts Used
 
-Or open it directly in Google Colab.
+* **PCA**: Reduces dimensionality by projecting data onto directions of maximum variance.
+* **t-SNE**: Non-linear technique for reducing data to 2 or 3 dimensions for visualization, preserving local structure.
+* **Image Flattening**: Necessary to convert 2D image data into a vector suitable for ML models.
 
-Run all cells:
-Execute all cells in the notebook sequentially. The notebook is structured to guide you through the data loading, feature extraction, dimensionality reduction, clustering, and evaluation steps.
+---
 
-Explore the visualizations and observations:
-The markdown cells contain explanations and observations regarding the results of each step.
+## 📊 Outputs
 
-Data
-The project uses an unlabeled dataset of sound files, provided as unlabelled_sounds.zip. This zip file contains .wav audio files. The notebook extracts these files and processes them.
+* A Scree Plot showing explained variance per PCA component.
+* A 2D t-SNE scatter plot with sound images visually embedded at their cluster positions.
 
-unlabelled_sounds.zip: Compressed archive containing .wav audio files.
+---
 
-Results and Observations
-The notebook includes markdown cells where observations are documented. Key observations may include:
+## 🔀 How to Use
 
-Raw Feature Visualization: Initial scatter plots and pair plots of raw MFCC features.
+1. Upload your sound image dataset in the expected folder (`sound_images/`).
+2. Run the notebook step by step.
+3. Observe the clustering results in the final scatter plot.
+4. Use the plots to explore patterns, similarities, or anomalies in your sound image data.
 
-PCA Results: Explained variance ratio, scatter plots of PCA components, and the impact of PCA on data distribution.
+---
 
-t-SNE Results: Visualization of t-SNE embeddings, highlighting potential clusters.
+## 📌 Note
 
-K-Means Clustering: Cluster assignments, centroid locations, and evaluation metrics (Silhouette, Davies-Bouldin).
+Ensure that:
 
-DBSCAN Clustering: Cluster assignments, noise points, and evaluation metrics.
+* All images are of uniform type (e.g., spectrograms).
+* File sizes and dimensions are reasonable for the memory capacity of Colab.
 
-Comparison of Algorithms: Discussion on the strengths and weaknesses of K-Means and DBSCAN for this dataset, especially concerning the need for pre-defined cluster numbers and handling of noise.
+---
 
-Real-World Applicability: Insights into the challenges of clustering real-world, high-dimensional, and noisy data.
+## 🡩‍💻 Author
 
-Dependencies
-The following Python libraries are used in this project:
-
-librosa: For audio analysis and feature extraction.
-
-matplotlib: For plotting and visualizations.
-
-seaborn: For enhanced statistical data visualizations.
-
-pandas: For data manipulation and analysis.
-
-numpy: For numerical operations.
-
-scikit-learn: For dimensionality reduction (PCA, t-SNE), clustering (K-Means, DBSCAN), and evaluation metrics.
-
-zipfile: For handling zip archives.
-
-Author
-Steven SHYAKA
+**Steven SHYAKA**
+Software Engineering Student | Sound & AI Enthusiast
+📍 Kigali, Rwanda
